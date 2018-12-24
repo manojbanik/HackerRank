@@ -1,0 +1,150 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+vector<string> split_string(string);
+
+
+string addition(string num1, string num2)
+{
+    int len1 = num1.size(), len2 = num2.size();
+    int bigger = max(len1, len2);
+    int smaller = min(len1, len2);
+
+    vector<int> res(bigger+1, 0);
+
+    int i=len1-1, j=len2-1, k = bigger, sum=0, c=0;
+
+
+    while(smaller>0) {
+        sum = num1[i]-'0' + num2[j]-'0'+c;
+        res[k] = sum%10;
+        c = sum/10;
+        --i; --j; --k; --smaller;
+    }
+
+    if(i>=0) {
+        while(i>=0) {
+            sum = num1[i]-'0' + c;
+            res[k] = sum%10;
+            c = sum/10;
+            --i; --k;
+        }
+    }
+    else {
+        while(j>=0) {
+            sum = num2[j]-'0' + c;
+            res[k] = sum%10;
+            c = sum/10;
+            --j; --k;
+        }
+    }
+
+    if(c) res[k] = c;    //    if any carry left.
+
+    //if(k==0) {          //  all fields are filled-up
+
+        string ss;
+        //string res;
+        for (auto p : res) if (!(ss.size() == 0 && p == 0)) ss += (p + '0');
+
+    //}
+
+    return ss.length() == 0? "0":ss;
+
+}
+
+string multiply(string num1, string num2)
+{
+        int len1 = num1.size(), len2 = num2.size();
+
+        vector<int> result(len1 + len2, 0);
+
+        for (int i = len1 - 1; i >= 0; i--){
+            for (int j = len2 - 1; j >= 0; j--){
+                int mul = (num1[i] - '0') * (num2[j] - '0');
+                int p1 = i + j, p2 = i + j + 1;
+                int sum = mul + result[p2];
+                result[p1] += sum / 10;
+                result[p2] = sum % 10;
+            }
+        }
+        string res;
+        for (auto p : result) if (!(res.size() == 0 && p == 0)) res += (p + '0');
+        return res.length() == 0? "0":res;
+    }
+
+
+string modifiedFibonacci(string x, string y, int n)
+{
+    string z;
+    
+    for(int i=3; i<=n; i++) {
+        
+        z = addition(x, multiply(y, y));
+        x = y; y= z;            
+    }
+    
+    return z;
+}
+
+
+// Complete the fibonacciModified function below.
+string fibonacciModified(int t1, int t2, int n) {
+    
+    return modifiedFibonacci(to_string(t1), to_string(t2), n);
+
+}
+
+int main()
+{
+    ofstream fout(getenv("OUTPUT_PATH"));
+
+    string t1T2n_temp;
+    getline(cin, t1T2n_temp);
+
+    vector<string> t1T2n = split_string(t1T2n_temp);
+
+    int t1 = stoi(t1T2n[0]);
+
+    int t2 = stoi(t1T2n[1]);
+
+    int n = stoi(t1T2n[2]);
+
+    string result = fibonacciModified(t1, t2, n);
+
+    fout << result << "\n";
+
+    fout.close();
+
+    return 0;
+}
+
+vector<string> split_string(string input_string) {
+    string::iterator new_end = unique(input_string.begin(), input_string.end(), [] (const char &x, const char &y) {
+        return x == y and x == ' ';
+    });
+
+    input_string.erase(new_end, input_string.end());
+
+    while (input_string[input_string.length() - 1] == ' ') {
+        input_string.pop_back();
+    }
+
+    vector<string> splits;
+    char delimiter = ' ';
+
+    size_t i = 0;
+    size_t pos = input_string.find(delimiter);
+
+    while (pos != string::npos) {
+        splits.push_back(input_string.substr(i, pos - i));
+
+        i = pos + 1;
+        pos = input_string.find(delimiter, i);
+    }
+
+    splits.push_back(input_string.substr(i, min(pos, input_string.length()) - i + 1));
+
+    return splits;
+}
