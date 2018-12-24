@@ -1,0 +1,82 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int checkForAltChar(string str, char a, char b)
+{
+    int len = str.size();
+    string temp = "";
+    
+    for(int i=0; i<len; i++)        //  making another string that has only a & b
+    {
+        if(str[i]== a || str[i] == b)
+            temp+=str[i];
+    }
+
+    len = temp.size();
+    if(len <= 1)
+        return 0;
+
+    char last = temp[0];
+    for(int i=1; i<len; i++)    //  finding alternation chars
+    {
+        if(temp[i] == last)
+            return 0;
+        last = temp[i];
+    }
+    
+    return len;
+}
+
+// Complete the twoCharaters function below.
+
+int twoCharaters(string ss) {
+    
+    int len = ss.length();
+
+    set<char> chset;
+    set<char>::iterator it1, it2;
+
+    for(int i=0; i<len; i++) chset.insert(ss[i]);
+
+    int maxlen=0, l1;
+
+    for (it1 = chset.begin(); it1 != chset.end(); it1++) {
+
+        it2 = it1; it2++;
+
+        while(it2  != chset.end() ) {
+
+            l1 = checkForAltChar(ss, *it1, *it2);
+
+            if(l1>maxlen) maxlen = l1;
+
+            it2++;
+
+        }
+
+    }
+
+    return maxlen;
+}
+
+
+int main()
+{
+    ofstream fout(getenv("OUTPUT_PATH"));
+
+    int l;
+    cin >> l;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    string s;
+    getline(cin, s);
+
+    int result = twoCharaters(s);
+
+    fout << result << "\n";
+
+    fout.close();
+
+    return 0;
+}
