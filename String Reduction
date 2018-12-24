@@ -1,0 +1,73 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+
+// Complete the stringReduction function below.
+int stringReduction(string s) {
+    
+    int sc[3] = {0}, len=s.length();
+    
+    for(int i=0; i<len; i++) sc[s[i]-97]++;
+    
+    
+    //  check for same type
+    
+    if(sc[0] == len || sc[1] == len || sc[2] == len) return len;
+    
+    //  check for all odd or all even
+    
+    if( sc[0]%2==0 && sc[1]%2==0 && sc[2]%2==0 ) return 2;
+    if( sc[0]%2==1 && sc[1]%2==1 && sc[2]%2==1 ) return 2;
+    
+    else return 1;
+    
+    /*
+    int len=s.length();
+    
+    //st.push(s[0]);  //  pushing the first element
+    st[0] = s[0];
+    int top=0;
+    
+    for(int i=1; i<len;i++) {
+        
+        char ch = st[top];
+        while((s[i] != ch) && top != -1) {
+            
+            int y = ch+s[i];
+            s[i] = (char)(294-y);
+            //st.pop(); 
+            top--;
+            ch = st[top];
+        }
+        top++;
+        st[top] = s[i];
+        
+    }
+    
+    return top+1;
+    */
+
+}
+
+int main()
+{
+    ofstream fout(getenv("OUTPUT_PATH"));
+
+    int t;
+    cin >> t;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    for (int t_itr = 0; t_itr < t; t_itr++) {
+        string s;
+        getline(cin, s);
+
+        int result = stringReduction(s);
+
+        fout << result << "\n";
+    }
+
+    fout.close();
+
+    return 0;
+}
