@@ -1,0 +1,125 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+vector<string> split_string(string);
+
+// Complete the highestValuePalindrome function below.
+string highestValuePalindrome(string s, int n, int k) {
+    
+    int i, j, m=0;   // m means minimum changes required
+
+
+    if(k>=n) {      //  no need to check anything, just return all 9's of size n
+
+        for(i=0; i<n; i++) s[i] = '9';
+
+        return s;   //  a string of only 9's
+    }
+
+    bool is9[n] ={false};  //  keeping track of all 9's to make it large
+
+    //  now looking for minimum changes we need to make it palindrome.
+    for(i=0, j=n-1; i < j; i++, j--) {
+
+        if(s[i] == '9') is9[i] = true;
+        if(s[j] == '9') is9[j] = true;
+
+        if(s[i] != s[j]) m++;   // m indicates must need change to make it palindrome.
+    }
+
+    
+    if(m>k) return "-1";    //  not possible
+
+    int extra = k-m;    //  how many extra change can be made to make it larger.
+    //    extra changes can be made to make it bigger number.
+
+
+    for(i=0, j=n-1; i < j; i++, j--) {
+
+        if(!extra) {    //  we are out of luxury, just need to make changes with the larger digit between them.
+
+            while(i<j) {
+                if(s[i] != s[j]) {  //  when they are different
+                    (s[i] < s[j])? (s[i] = s[j]) : (s[j] = s[i]);
+                }
+                i++; j--;
+            }
+
+            return s;   //  we are DONE.
+        }
+
+            if(s[i] == s[j] && !is9[i] && extra > 1) {   // same but not 9
+                s[i] = s[j] = '9';
+                extra -= 2;
+            }
+        
+
+        else if(s[i] != s[j] && !is9[i] && !is9[j]) {         //  not same
+                s[i] = s[j] = '9'; extra--;
+            }
+
+            else if(s[i] != s[j])   //  when they are different
+                        (s[i] < s[j])? (s[i] = s[j]) : (s[j] = s[i]);
+
+    }       //  for loop
+
+    if((i==j) && extra )  s[i] = '9';
+    return s;
+
+
+}
+
+int main()
+{
+    ofstream fout(getenv("OUTPUT_PATH"));
+
+    string nk_temp;
+    getline(cin, nk_temp);
+
+    vector<string> nk = split_string(nk_temp);
+
+    int n = stoi(nk[0]);
+
+    int k = stoi(nk[1]);
+
+    string s;
+    getline(cin, s);
+
+    string result = highestValuePalindrome(s, n, k);
+
+    fout << result << "\n";
+
+    fout.close();
+
+    return 0;
+}
+
+vector<string> split_string(string input_string) {
+    string::iterator new_end = unique(input_string.begin(), input_string.end(), [] (const char &x, const char &y) {
+        return x == y and x == ' ';
+    });
+
+    input_string.erase(new_end, input_string.end());
+
+    while (input_string[input_string.length() - 1] == ' ') {
+        input_string.pop_back();
+    }
+
+    vector<string> splits;
+    char delimiter = ' ';
+
+    size_t i = 0;
+    size_t pos = input_string.find(delimiter);
+
+    while (pos != string::npos) {
+        splits.push_back(input_string.substr(i, pos - i));
+
+        i = pos + 1;
+        pos = input_string.find(delimiter, i);
+    }
+
+    splits.push_back(input_string.substr(i, min(pos, input_string.length()) - i + 1));
+
+    return splits;
+}
