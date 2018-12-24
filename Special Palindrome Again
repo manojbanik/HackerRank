@@ -1,0 +1,75 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+// Complete the substrCount function below.
+
+long substrCount(int n, string s) {
+    
+    long counter = n;   //  palindrome with single character
+                
+    int allSame = 1;    //  palindrome with all same characters
+                
+    int midIndex = -1;
+                
+    // compare with previous character so start with i=1
+    
+    for (int i = 1; i < n; i++) {
+        if (s[i] == s[i-1]) {
+            
+            counter += allSame;
+            allSame++;  //  1+2+3+ ..... + n-1
+                
+            // Condition 2: All characters except the middle one
+            // are the same
+            if (midIndex > 0) {
+                // check for symmetry on both sides
+                // of the midIndex
+                if ( (midIndex-allSame) > 0 && (s[midIndex-allSame] == s[i]) ) {
+                    counter++;
+                } else {
+                    // no more possibility of palindromic string
+                    // with this midIndex
+                    midIndex = -1; 
+                }
+            }
+        } 
+        else {
+            // reset consecutive chars counter to 1
+            allSame = 1;
+                
+            // check for a 3-character symmetry
+            if (((i-2) >= 0) && (s[i-2] == s[i]) ) {
+                counter++; // 3-char symmetry is detected
+                    
+                // to check if the next characters are the same
+                // and symmetrical along the midIndex
+                midIndex = i-1;
+            } else {
+                midIndex = -1;
+            }
+        }
+    }
+    return counter;
+}
+
+
+int main()
+{
+    ofstream fout(getenv("OUTPUT_PATH"));
+
+    int n;
+    cin >> n;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    string s;
+    getline(cin, s);
+
+    long result = substrCount(n, s);
+
+    fout << result << "\n";
+
+    fout.close();
+
+    return 0;
+}
