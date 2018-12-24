@@ -1,0 +1,55 @@
+//Define the structs Workshops and Available_Workshops.
+
+struct Workshop
+{
+    int startTime;
+    int duration;
+    int endTime;
+};
+
+struct Available_Workshops
+{                                                    
+    int totalWorkshops;
+    vector<Workshop> Workshops;
+    
+    //Workshop* Workshops = new Workshop[totalWorkshops];
+    
+};           
+
+//Implement the functions initialize and CalculateMaxWorkshops
+
+Available_Workshops* initialize(int start_time[], int duration[], int n)
+{
+    Available_Workshops *awp = new Available_Workshops(); 
+    for(int i=0; i<n; i++){
+        Workshop wp;
+        wp.startTime = start_time[i];
+        wp.duration = duration[i];
+        wp.endTime = start_time[i] + duration[i];
+        awp->Workshops.push_back(wp);
+        //awp->Workshops[i] = wp;
+    }
+    return awp;
+}
+
+bool accending(Workshop w1, Workshop w2){
+    return (w1.endTime < w2.endTime);
+}
+
+int CalculateMaxWorkshops(Available_Workshops* ptr)
+{
+    sort(ptr->Workshops.begin(), ptr->Workshops.end(), accending);
+    
+    int pEndTime = 0, ans=0;
+    
+    for(Workshop& i : ptr->Workshops){
+        
+        if(i.startTime >= pEndTime){
+            ans++;
+            pEndTime = i.endTime;
+        }
+    }
+    return ans;
+    
+}
+
