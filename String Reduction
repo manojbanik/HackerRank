@@ -21,32 +21,6 @@ int stringReduction(string s) {
     if( sc[0]%2==1 && sc[1]%2==1 && sc[2]%2==1 ) return 2;
     
     else return 1;
-    
-    /*
-    int len=s.length();
-    
-    //st.push(s[0]);  //  pushing the first element
-    st[0] = s[0];
-    int top=0;
-    
-    for(int i=1; i<len;i++) {
-        
-        char ch = st[top];
-        while((s[i] != ch) && top != -1) {
-            
-            int y = ch+s[i];
-            s[i] = (char)(294-y);
-            //st.pop(); 
-            top--;
-            ch = st[top];
-        }
-        top++;
-        st[top] = s[i];
-        
-    }
-    
-    return top+1;
-    */
 
 }
 
