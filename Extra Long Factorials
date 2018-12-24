@@ -1,0 +1,56 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+vector<int> bigIntMultiply(vector<int>& fact, int num)
+{
+    //  fact = fact * num, 
+    
+    int n = fact.size();
+    vector<int> factNext;
+    vector<int>::iterator it;
+    it = factNext.begin();
+    int carry=0, product;
+        
+    for(int i=n-1; i>=0; i--) {        
+        product = fact[i]*num + carry;
+        //factNext.push_front(product %10);
+        it = factNext.insert (it, product %10);
+        carry = product/10;        
+    }
+    
+    while(carry) {
+        it = factNext.insert (it, carry%10);
+        carry /= 10;
+    }
+    
+    return factNext;
+}
+
+// Complete the extraLongFactorials function below.
+void extraLongFactorials(int n) 
+{
+    if(n<0) {cout << "0"; return; }
+    if(n<=2) {cout << n; return; }
+    
+    vector<int> result;
+    result.push_back(2);
+        
+    for(int i=3; i<=n; i++)
+        result = bigIntMultiply(result, i);
+        
+    for(int i=0; i<result.size(); i++) cout << result[i];
+    
+    return;
+}
+
+int main()
+{
+    int n;
+    cin >> n;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    extraLongFactorials(n);
+
+    return 0;
+}
