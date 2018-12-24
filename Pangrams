@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+// Complete the pangrams function below.
+string pangrams(string s) {
+    
+    int sl = s.length();
+    int cc[26]={0};
+    int i;
+    
+    for(i=0; i<sl; i++) {
+        
+        if(s[i]==' ') continue;
+        if(s[i]>='A' && s[i]<='Z') cc[s[i]-'A']++;
+        else cc[s[i]-'a']++;        
+    }
+    
+    for(i=0;i<26;i++) if(!cc[i]) return "not pangram";
+    
+    return "pangram";
+}
+
+int main()
+{
+    ofstream fout(getenv("OUTPUT_PATH"));
+
+    string s;
+    getline(cin, s);
+
+    string result = pangrams(s);
+
+    fout << result << "\n";
+
+    fout.close();
+
+    return 0;
+}
