@@ -1,0 +1,67 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+// Complete the sherlockAndAnagrams function below.
+int sherlockAndAnagrams(string str) {
+    int len = str.length();
+
+    if (len < 2) return 0;
+
+    unordered_map<string, int> mp;
+
+    for(int i=0; i<len; i++) {  //  all strings of length 1
+
+        string ss = str.substr(i, 1);
+
+        if(mp.find(ss) != mp.end()) mp[ss]++;
+
+        else mp[ss]=1;
+    }
+
+    for(int j=2; j<len; j++) {        //  all strings of length > 1
+
+        for(int i=0; i<len-j+1; i++) {
+
+            string ss = str.substr(i, j); sort(ss.begin(), ss.end());
+
+            if(mp.find(ss) != mp.end()) mp[ss]++;
+
+            else mp[ss]=1;
+        }
+    }
+
+    int total=0;
+
+    for(auto el:mp) {
+
+        if(el.second>1) total += el.second * (el.second -1) / 2;
+
+        //cout << el.first << ": " << el.second << endl;
+    }
+
+    return total;
+
+}
+
+int main()
+{
+    ofstream fout(getenv("OUTPUT_PATH"));
+
+    int q;
+    cin >> q;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    for (int q_itr = 0; q_itr < q; q_itr++) {
+        string s;
+        getline(cin, s);
+
+        int result = sherlockAndAnagrams(s);
+
+        fout << result << "\n";
+    }
+
+    fout.close();
+
+    return 0;
+}
