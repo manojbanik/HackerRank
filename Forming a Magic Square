@@ -1,0 +1,145 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+// Complete the formingMagicSquare function below.
+int formingMagicSquare(vector<vector<int>> s) {
+    
+    //  original
+    vector<vector<int>> s1 =  { {2, 7, 6},
+                                {9, 5, 1},
+                                {4, 3, 8}}; 
+    
+    //  row 0<-->2    
+    vector<vector<int>> s2 =  { {4, 3, 8},
+                                {9, 5, 1},
+                                {2, 7, 6}}; 
+    
+    //  col 0<-->2
+    vector<vector<int>> s3 =  { {6, 7, 2},
+                                {1, 5, 9},
+                                {8, 3, 4}}; 
+    //  anti-clock 90
+    vector<vector<int>> s4 =  { {6, 1, 8},
+                                {7, 5, 3},
+                                {2, 9, 4}}; 
+    
+    //  anti-clock 180
+    vector<vector<int>> s5 =  { {8, 3, 4},
+                                {1, 5, 9},
+                                {6, 7, 2}}; 
+    
+    //  anti-clock 270
+    vector<vector<int>> s6 =  { {4, 9, 2},
+                                {3, 5, 7},
+                                {8, 1, 6}}; 
+    
+    vector<vector<int>> s7 =  { {2, 9, 4},
+                                {7, 5, 3},
+                                {6, 1, 8}}; 
+
+    vector<vector<int>> s8 =  { {8, 1, 6},
+                                {3, 5, 7},
+                                {4, 9, 2}}; 
+
+    
+    int min_cost=100, cost;
+    
+    cost=0;
+    for(int i=0; i<3; i++) {        
+        for(int j=0; j<3; j++) {
+            cost += abs(s[i][j]-s1[i][j]);
+        }        
+    }
+    
+    if(cost<min_cost) min_cost=cost;
+    
+    cost=0;
+    for(int i=0; i<3; i++) {        
+        for(int j=0; j<3; j++) {
+            cost += abs(s[i][j]-s2[i][j]);
+        }        
+    }
+    
+    if(cost<min_cost) min_cost=cost;
+    
+    cost=0;
+    for(int i=0; i<3; i++) {        
+        for(int j=0; j<3; j++) {
+            cost += abs(s[i][j]-s3[i][j]);
+        }        
+    }
+    
+    if(cost<min_cost) min_cost=cost;
+    
+    cost=0;
+    for(int i=0; i<3; i++) {        
+        for(int j=0; j<3; j++) {
+            cost += abs(s[i][j]-s4[i][j]);
+        }        
+    }
+    
+    if(cost<min_cost) min_cost=cost;
+    
+    cost=0;
+    for(int i=0; i<3; i++) {        
+        for(int j=0; j<3; j++) {
+            cost += abs(s[i][j]-s5[i][j]);
+        }        
+    }
+    
+    if(cost<min_cost) min_cost=cost;
+    
+    cost=0;
+    for(int i=0; i<3; i++) {        
+        for(int j=0; j<3; j++) {
+            cost += abs(s[i][j]-s6[i][j]);
+        }        
+    }
+    
+    if(cost<min_cost) min_cost=cost;
+    
+        cost=0;
+    for(int i=0; i<3; i++) {        
+        for(int j=0; j<3; j++) {
+            cost += abs(s[i][j]-s7[i][j]);
+        }        
+    }
+    
+    if(cost<min_cost) min_cost=cost;
+    
+    cost=0;
+    for(int i=0; i<3; i++) {        
+        for(int j=0; j<3; j++) {
+            cost += abs(s[i][j]-s8[i][j]);
+        }        
+    }
+    
+    if(cost<min_cost) min_cost=cost;
+    
+    return min_cost;
+}
+
+int main()
+{
+    ofstream fout(getenv("OUTPUT_PATH"));
+
+    vector<vector<int>> s(3);
+    for (int i = 0; i < 3; i++) {
+        s[i].resize(3);
+
+        for (int j = 0; j < 3; j++) {
+            cin >> s[i][j];
+        }
+
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+
+    int result = formingMagicSquare(s);
+
+    fout << result << "\n";
+
+    fout.close();
+
+    return 0;
+}
