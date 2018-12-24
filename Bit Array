@@ -1,0 +1,40 @@
+#include <cmath>
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+
+int main() 
+{
+    unsigned int N, S, P, Q, a0, ai, total = 0;
+    
+    //  we don't need to store all values, only the previous
+    //  one we need to calculate.
+    
+    unsigned int p_31 = (1U<<31);
+
+    vector <bool> arr(p_31, false);  //  checking for duplicate elements
+
+    cin >> N >> S >> P >> Q;
+
+    a0 = S % p_31;
+    
+    arr[a0] = true;
+    
+    total++;
+
+    for (unsigned int i = 1; i <= N-1; i++) {
+        ai = (a0*P + Q) % p_31;
+        if (!arr[ai]) {
+            arr[ai] = true;
+            total++;
+        }
+        a0 = ai;
+    }
+
+    cout << total ;
+    
+    return 0;
+}
