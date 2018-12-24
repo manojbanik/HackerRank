@@ -1,0 +1,96 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+// Complete the isValid function below.
+string isValid(string s) {
+    
+    long long len = s.length();
+    
+    if(len<2) return "YES";
+    
+    vector<long> count(26, 0);
+    
+    for(long i=0; i<len; i++) count[s[i]-'a']++;
+        
+    long x, y;
+    
+    long j=0;    
+    while(!count[j]) j++;   //  find first non zero element.
+    
+    x = count[j++];
+    
+    while(!count[j] && j<26) j++;   //  find second non zero element.
+    
+    if(j<26) y = count[j++];
+    else return "YES"; 
+    
+    //  now we are looking for rest of the elements must be equal x or y 
+    
+    if(x==y) {      //  looking for only one that is equal to x+1
+        
+        bool flag1=true, flag2=true;   //  to keep track of occurrences
+        
+        for(; j<26; j++) {
+            if(!count[j] || x==count[j]) continue;
+            
+            else { 
+                if(count[j] == x+1) 
+                    if(flag1) flag1 = false;
+                    else return "NO";
+                else {
+                    if(count[j] == 1) 
+                        if(flag1) flag1 = false;
+                        else return "NO";                    
+                    else return "NO";
+                }              
+            }            
+        }
+        return "YES";        
+    }
+    
+    else {
+        
+        if(x>y+1 || y>x+1) return "NO";
+                
+        int sm;     //  we want to determine which one is small,        
+        (x>y)? sm=y : sm=x;     //  now rest elements should be equal to sm.
+        
+        if(sm != 1) {
+            for(; j<26; j++) {
+                if(!count[j] || sm==count[j]) continue;
+            
+                return "NO";
+            }
+            return "YES"; 
+        }
+        else {
+            
+            int lrg;
+            (x>y)? lrg=x : lrg=y;
+            
+            for(; j<26; j++) {
+               if(!count[j] || sm==count[j]) continue;
+            
+                return "NO";
+            }
+            return "YES";            
+        }
+    }    
+}
+
+int main()
+{
+    ofstream fout(getenv("OUTPUT_PATH"));
+
+    string s;
+    getline(cin, s);
+
+    string result = isValid(s);
+
+    fout << result << "\n";
+
+    fout.close();
+
+    return 0;
+}
